@@ -4,13 +4,25 @@ type Course {
   teacher: String
   description: String!
   topic: String
+  people:[Student]
 }
+
+type Student {
+  _id: ID!
+  name: String!
+  email: String!
+}
+
 
 type Query {
   "Devuelve todos cursos"
   getCourses: [Course]
   "Devuelve un curso"
   getCourse(id: ID!): Course
+  "Devuelve todos estudiantes"
+  getStudents: [Student]
+  "Devuelve un estudiante"
+  getStudent(id: ID!): Student
 }
 
 input CourseInput{
@@ -19,8 +31,37 @@ input CourseInput{
   description: String!
   topic: String
 }
+input CourseEditInput{
+  title: String
+  teacher: String
+  description: String
+  topic: String
+}
+
+input StudentInput{
+  name: String!
+  email: String!
+}
+
+input StudentEditInput{
+  name: String
+  email: String
+}
 
 type Mutation {
   "Create a course"
   createCourse(input: CourseInput!): Course
+  "edit a course"
+  editCourse(_id:ID!, input: CourseEditInput!): Course
+  "delete a Course"
+  deleteCourse(_id:ID!): String
+  "Create a student"
+  createStudent(input: StudentInput!): Student
+  "edit a Student"
+  editStudent(_id:ID!, input: StudentEditInput!): Student
+  "delete a Student"
+  deleteStudent(_id:ID!): String
+  "add a person to a course"
+  addPeople(courseId:ID!, personId:ID!): Course
+
 }
